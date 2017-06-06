@@ -18,6 +18,12 @@ target_link_libraries(experimento-3d  ${VTK_LIBRARIES} ${ITK_LIBRARIES})
 
 include_directories(C:/libs/spdlog/include/spdlog)
 
+#bota minhas bibliotecas:
+#o carregador de imagens 3d
+add_subdirectory(C:/src/myItkImageLoader  C:/libs/myItkImageLoader)
+include_directories(${myItkImageLoader_INCLUDE_DIRS})
+target_link_libraries(experimento-3d myItkImageLoader)
+
 #suprime o warning chato dos infernos que a ITK gera por usar funções inseguras da api do windows
 add_definitions(-D_SCL_SECURE_NO_WARNINGS)
 
