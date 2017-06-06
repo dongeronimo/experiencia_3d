@@ -5,7 +5,7 @@ renderer, de preferência que possa ser encaixado na VTK.
 
 Lista de tarefas:
 1)Básico.
-1.1)Carregar imagem usando a minha biblioteca.
+1.1)Carregar imagem usando a minha biblioteca.  FEITO (05/06/2017)
 1.2)Criar meu actor onde farei as coisas.
 1.3)Passar a imagem pra GPU como textura 3d
 1.4)Fazer um volume renderer de raycast.
