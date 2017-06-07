@@ -7,7 +7,7 @@ Lista de tarefas:
 1)Básico.
 1.1)Carregar imagem usando a minha biblioteca.  FEITO (05/06/2017)
 1.2)Criar meu actor onde farei as coisas. COMECEI EM (05/06/2017)
-1.2.1)Criar a tela da VTK
+1.2.1)Criar a tela da VTK FEITO EM (06/06/2017)
 1.2.2)Por meu actor nela
 1.2.3)Fazer o actor funcionar
 1.3)Passar a imagem pra GPU como textura 3d
