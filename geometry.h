@@ -1,4 +1,12 @@
 #pragma once
+#include <vtk_glew.h>
+#include <vtkOpenGL.h>
+#include <vector>
+#include <array>
+#include <vtkSmartPointer.h>
+#include <vtkMatrix4x4.h>
+#include "shader.h"
+
 class MyGeometry
 {
 private:

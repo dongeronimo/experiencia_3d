@@ -2,112 +2,119 @@
 #include <vtk_glew.h>
 #include <vtkOpenGL.h>
 #include <map>
+#include <string>
 #include <iostream>
+
+using namespace std;
 
 class MyShader
 {
 private:
+
 	GLuint programId;
 	GLuint vsId;
 	GLuint fsId;
-	std::map<std::string, GLuint> attributes;
-	std::map<std::string, GLuint> uniforms;
+	map<string, GLuint> attributes;
+	map<string, GLuint> uniforms;
 
-	std::string GetShaderInfoLog(GLuint object, PFNGLGETSHADERIVPROC glGet__iv, PFNGLGETSHADERINFOLOGPROC glGet__InfoLog)
-{
-	GLint log_length;
-	char *log;
-	glGet__iv(object, GL_INFO_LOG_LENGTH, &log_length);
-	log = static_cast<char*>(malloc(log_length));
-	glGet__InfoLog(object, log_length, nullptr, log);
-	return log;
-}
-GLuint MakeShader(GLenum type, std::string source)
-{
-	GLint length[] = { source.length() };
-	const GLchar *srcLn = source.c_str();
-	GLuint shader;
-	GLint shader_ok;
-	shader = glCreateShader(type);
-	glShaderSource(shader, 1, &srcLn, length);
-	glCompileShader(shader);
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &shader_ok);
-	std::string _probl = GetShaderInfoLog(shader, glGetShaderiv, glGetShaderInfoLog);	
-	if (!shader_ok)
+	string GetShaderInfoLog(GLuint object, PFNGLGETSHADERIVPROC glGet__iv, PFNGLGETSHADERINFOLOGPROC glGet__InfoLog)
 	{
-		glDeleteShader(shader);
-		std::cout << _probl << std::endl;
-		throw std::runtime_error(_probl.c_str());
+		GLint log_length;
+		char *log;
+		glGet__iv(object, GL_INFO_LOG_LENGTH, &log_length);
+		log = static_cast<char*>(malloc(log_length));
+		glGet__InfoLog(object, log_length, nullptr, log);
+		return log;
 	}
-	else
+	GLuint MakeShader(GLenum type, string source)
 	{
-		return shader;
+		GLint length[] = { source.length() };
+		const GLchar *srcLn = source.c_str();
+		GLuint shader;
+		GLint shader_ok;
+		shader = glCreateShader(type);
+		glShaderSource(shader, 1, &srcLn, length);
+		glCompileShader(shader);
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &shader_ok);
+		auto _probl = GetShaderInfoLog(shader, glGetShaderiv, glGetShaderInfoLog);	
+		if (!shader_ok)
+		{
+			glDeleteShader(shader);
+			cout << _probl << endl;
+			throw runtime_error(_probl.c_str());
+		}
+		else
+		{
+			return shader;
+		}
 	}
-}
-GLuint MakeProgram(GLuint vertex_shader, GLuint fragment_shader)
-{
-	GLint program_ok;
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vertex_shader);
-	glAttachShader(program, fragment_shader);
-	glLinkProgram(program);
-	glGetProgramiv(program, GL_LINK_STATUS, &program_ok);
-	if (!program_ok) {
-		std::string _probl = GetShaderInfoLog(program, glGetProgramiv, glGetProgramInfoLog);
-		glDeleteProgram(program);
-		throw std::runtime_error(_probl.c_str());
-	}
-	return program;
-}
-void IntrospectProgram(GLuint programId, std::map<std::string, GLuint> &attributes, std::map<std::string, GLuint> &uniforms)
-{
-	GLint numberOfAttributes, largestAttributeName;
-	glGetProgramiv(programId, GL_ACTIVE_ATTRIBUTES, &numberOfAttributes);
-	glGetProgramiv(programId, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &largestAttributeName);
-	//para cada atributo, pegar as propriedades e guardar.
-	for (GLuint i = 0; i < numberOfAttributes; i++)
+	GLuint MakeProgram(GLuint vertex_shader, GLuint fragment_shader)
 	{
-		char* nameBuffer = new char[largestAttributeName];
-		GLsizei length;
-		GLint size;
-		GLenum type;
-		//Pega, entre outras coisas, o nome do atributo.
-		glGetActiveAttrib(programId, i, largestAttributeName, &length, &size, &type, nameBuffer);
-		GLint attribLocation = glGetAttribLocation(programId, nameBuffer);
-		std::string _name(nameBuffer);
-		attributes.insert(std::make_pair(_name, attribLocation));
+		GLint program_ok;
+		GLuint program = glCreateProgram();
+		glAttachShader(program, vertex_shader);
+		glAttachShader(program, fragment_shader);
+		glLinkProgram(program);
+		glGetProgramiv(program, GL_LINK_STATUS, &program_ok);
+		if (!program_ok) {
+			string _probl = GetShaderInfoLog(program, glGetProgramiv, glGetProgramInfoLog);
+			glDeleteProgram(program);
+			throw runtime_error(_probl.c_str());
+		}
+		return program;
 	}
-	//Agora pra uniforms
-	GLint numberOfUniforms, largesUniformName;
-	glGetProgramiv(programId, GL_ACTIVE_UNIFORMS, &numberOfUniforms);
-	glGetProgramiv(programId, GL_ACTIVE_UNIFORM_MAX_LENGTH, &largesUniformName);
-	//para cada atributo, pegar as propriedades e guardar.
-	for (GLuint i = 0; i < numberOfUniforms; i++)
+	void IntrospectProgram(GLuint programId, map<string, GLuint> &attributes, map<string, GLuint> &uniforms)
 	{
-		char* buffer = new char[largesUniformName];
-		GLsizei length;
-		GLint size;
-		GLenum type;
-		glGetActiveUniform(programId, i, largesUniformName, &length,
-			&size, &type, buffer);
-		GLint unifLoc = glGetUniformLocation(programId, buffer);
-		std::string _name(buffer);
-		uniforms.insert(std::make_pair(_name, unifLoc));
+		GLint numberOfAttributes, largestAttributeName;
+		glGetProgramiv(programId, GL_ACTIVE_ATTRIBUTES, &numberOfAttributes);
+		glGetProgramiv(programId, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &largestAttributeName);
+		//para cada atributo, pegar as propriedades e guardar.
+		for (GLuint i = 0; i < numberOfAttributes; i++)
+		{
+			char* nameBuffer = new char[largestAttributeName];
+			GLsizei length;
+			GLint size;
+			GLenum type;
+			//Pega, entre outras coisas, o nome do atributo.
+			glGetActiveAttrib(programId, i, largestAttributeName, &length, &size, &type, nameBuffer);
+			GLint attribLocation = glGetAttribLocation(programId, nameBuffer);
+			string _name(nameBuffer);
+			attributes.insert(make_pair(_name, attribLocation));
+		}
+		//Agora pra uniforms
+		GLint numberOfUniforms, largesUniformName;
+		glGetProgramiv(programId, GL_ACTIVE_UNIFORMS, &numberOfUniforms);
+		glGetProgramiv(programId, GL_ACTIVE_UNIFORM_MAX_LENGTH, &largesUniformName);
+		//para cada atributo, pegar as propriedades e guardar.
+		for (GLuint i = 0; i < numberOfUniforms; i++)
+		{
+			char* buffer = new char[largesUniformName];
+			GLsizei length;
+			GLint size;
+			GLenum type;
+			glGetActiveUniform(programId, i, largesUniformName, &length,
+				&size, &type, buffer);
+			GLint unifLoc = glGetUniformLocation(programId, buffer);
+			string _name(buffer);
+			uniforms.insert(make_pair(_name, unifLoc));
+		}
 	}
-}
 public:
-	MyShader(std::string vsSrc, std::string fsSrc)
+	////Cria o shader usando o código fonte dado para o vertex shader e pro fragment shader
+	MyShader(string vsSrc, string fsSrc)
 	{
 		vsId = MakeShader(GL_VERTEX_SHADER, vsSrc);
 		fsId = MakeShader(GL_FRAGMENT_SHADER, fsSrc);
 		programId = MakeProgram(vsId, fsId);
 		IntrospectProgram(programId, attributes, uniforms);
 	}
-	GLuint GetUniformByName(std::string name)
+	////Retorna o id da uniform com o nome dado
+	GLuint GetUniformByName(string name)
 	{
 		return uniforms.at(name);
 	}
-	GLuint GetAttributeByName(std::string name)
+	////Retorna o id do atributo com o nome dado
+	GLuint GetAttributeByName(string name)
 	{
 		return attributes.at(name);
 	}
@@ -117,5 +124,6 @@ public:
 		glDeleteShader(vsId);
 		glDeleteShader(fsId);
 	}
+	//Retorna o id do programa
 	GLuint GetProgramId(){ return programId; }
 };
