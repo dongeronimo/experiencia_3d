@@ -6,7 +6,8 @@
 #include <vtkRenderer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
-
+#include <vtkRendererCollection.h>
+#include "MyVolumeActor.h"
 using namespace std;
 using namespace spdlog;
 std::shared_ptr<spdlog::logger> mylogger = spdlog::stdout_color_mt("console");
@@ -14,12 +15,14 @@ shared_ptr<imageLoader::LoadedImage> imagem = nullptr;
 shared_ptr<imageLoader::LoadedImage> LoadData(string dir);
 
 vtkSmartPointer<vtkRenderWindow> CreateScreen();
-
+vtkSmartPointer<MyVolumeActor> myActor;
 int main(int argc, char** argv)
 {
 	string imageDir(argv[1]);
 	imagem = LoadData(imageDir);
 	vtkSmartPointer<vtkRenderWindow> renderWindow = CreateScreen();
+	myActor = vtkSmartPointer<MyVolumeActor>::New();
+	renderWindow->GetRenderers()->GetFirstRenderer()->AddActor(myActor);
 	renderWindow->GetInteractor()->Start();
 	return EXIT_SUCCESS;
 }

@@ -4,12 +4,13 @@ O objetivo é eu fazer meus próprios filtros de GPU e meu próprio volume
 renderer, de preferência que possa ser encaixado na VTK.
 
 Lista de tarefas:
-1)Básico.
+1)Básico. A infraestrutura pro futuro está pronta. Tenho onde fazer minhas
+operações de opengl, tenho meus ganchos nos processos da VTK.
 1.1)Carregar imagem usando a minha biblioteca.  FEITO (05/06/2017)
 1.2)Criar meu actor onde farei as coisas. COMECEI EM (05/06/2017)
 1.2.1)Criar a tela da VTK FEITO EM (06/06/2017)
-1.2.2)Por meu actor nela
-1.2.3)Fazer o actor funcionar
+1.2.2)Por meu actor nela FEITO EM (08/06/2017)
+1.2.3)Fazer o actor funcionar FEITO EM (08/06/2017)
 1.3)Passar a imagem pra GPU como textura 3d
 1.3.1)Fazer aparecer na memória quando ver com o gdebugger
 1.3.2)Renderizar em um objeto 3d pra enxergá-la.

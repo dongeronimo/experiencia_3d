@@ -22,15 +22,15 @@ protected:
 	~MyVolumeActor();
 public:
 	static MyVolumeActor *New();
-	void PrintSelf(ostream& os, vtkIndent indent);
+	void PrintSelf(ostream& os, vtkIndent indent) override;
 	void ShallowCopy(MyVolumeActor* t);
 
-	int RenderOpaqueGeometry(vtkViewport *v);
-	int RenderTranslucentPolygonalGeometry(vtkViewport *v);
-	int RenderVolumetricGeometry(vtkViewport *v);
-	int RenderOverlay(vtkViewport *v);
-	bool RenderFilteredOpaqueGeometry(vtkViewport *v, vtkInformation *requiredKeys);
-	bool RenderFilteredTranslucentPolygonalGeometry(vtkViewport *v, vtkInformation *requiredKeys);
-	bool RenderFilteredVolumetricGeometry(vtkViewport *v, vtkInformation *requiredKeys);
-	bool RenderFilteredOverlay(vtkViewport *v, vtkInformation *requiredKeys);
-}
+	int RenderOpaqueGeometry(vtkViewport *v) override;
+	int RenderTranslucentPolygonalGeometry(vtkViewport *v) override;
+	int RenderVolumetricGeometry(vtkViewport *v) override;
+	int RenderOverlay(vtkViewport *v) override;
+	bool RenderFilteredOpaqueGeometry(vtkViewport *v, vtkInformation *requiredKeys) override;
+	bool RenderFilteredTranslucentPolygonalGeometry(vtkViewport *v, vtkInformation *requiredKeys) override;
+	bool RenderFilteredVolumetricGeometry(vtkViewport *v, vtkInformation *requiredKeys) override;
+	bool RenderFilteredOverlay(vtkViewport *v, vtkInformation *requiredKeys) override;
+};
