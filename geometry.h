@@ -57,7 +57,7 @@ public:
 		glBufferData(GL_ARRAY_BUFFER, uvBufferDataSize, const_cast<GLfloat*>(uvBufferData), GL_STATIC_DRAW);
 
 	}
-	void Render(vtkSmartPointer<vtkMatrix4x4> mvp, MyShader* shader, GLuint textureId)
+	void Render(vtkSmartPointer<vtkMatrix4x4> mvp, MyShader* shader)
 	{
 		double _tempMat[16];
 		vtkMatrix4x4::DeepCopy(_tempMat, mvp);
@@ -91,9 +91,6 @@ public:
 		//A textura
 		//glEnable(GL_TEXTURE);
 		//glEnable(GL_TEXTURE0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, textureId);
-		glUniform1i(shader->GetUniformByName("textureSampler"), 0);// é 0 pq to usando GL_TEXTURE0
 		// Draw the triangle !
 		glDrawArrays(GL_TRIANGLES, 0, numeroDeElementos); // 3 indices starting at 0 -> 1 triangle
 		glDisableVertexAttribArray(0);

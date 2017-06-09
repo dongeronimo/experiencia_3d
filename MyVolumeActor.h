@@ -9,18 +9,29 @@
 #include <map>
 #include <string>
 #include <memory>
-
+#include <itkImage.h>
+#include "geometry.h"
+#include "shader.h"
+#include "MyTexture.h"
 using namespace std;
 
+typedef itk::Image<short, 3> ImageType;
 class MyVolumeActor :public vtkProp
 {
 private:
 	MyVolumeActor(const MyVolumeActor&); // Not implemented.
 	void operator = (const MyVolumeActor&); // Not implemented.
+	ImageType::Pointer imagem;
+	shared_ptr<MyGeometry> myGeometry;
+	shared_ptr<MyShader> shader;
+	bool glInitialized;
+	void InitOpenGL();
 protected:
 	MyVolumeActor();
 	~MyVolumeActor();
 public:
+	void SetImagem(ImageType::Pointer img) { this->imagem = img; }
+
 	static MyVolumeActor *New();
 	void PrintSelf(ostream& os, vtkIndent indent) override;
 	void ShallowCopy(MyVolumeActor* t);
