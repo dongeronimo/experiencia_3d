@@ -31,25 +31,80 @@ void MyVolumeActor::InitOpenGL()
 
 	const float min_vert = -0.2; //0
 	const float max_vert = 0.2;
-	
-	std::array<float, 3> p1 = { min_vert, min_vert, 0 };  std::array<float, 2> uv1 = { 0, 0 };
-	std::array<float, 3> p2 = { max_vert, min_vert, 0 };  std::array<float, 2> uv2 = { 1, 0 };
-	std::array<float, 3> p3 = { min_vert, max_vert, 0 };  std::array<float, 2> uv3 = { 0, 1 };
-	std::array<float, 3> p4 = { max_vert, max_vert, 0 };  std::array<float, 2> uv4 = { 1, 1 };
-	
 	std::vector<std::array<float, 3>> vb; std::vector<std::array<float, 2>> uv;
-	std::array<float, 3> v1 = { p1[0], p1[1], p1[2] }; 
-	std::array<float, 3> v2 = { p2[0], p2[1], p2[2] }; 
-	std::array<float, 3> v3 = { p3[0], p3[1], p3[2] }; 
-	std::array<float, 3> v4 = { p4[0], p4[1], p4[2] }; 
-	vb.push_back(v1); uv.push_back(uv1);
-	vb.push_back(v2); uv.push_back(uv2);
-	vb.push_back(v3); uv.push_back(uv3);
-	
-	vb.push_back(v2); uv.push_back(uv2);
-	vb.push_back(v4); uv.push_back(uv4);
-	vb.push_back(v3); uv.push_back(uv3);
-			
+	//std::array<float, 3> p1 = { min_vert, min_vert, 0 };  std::array<float, 2> uv1 = { 0, 0 };
+	//std::array<float, 3> p2 = { max_vert, min_vert, 0 };  std::array<float, 2> uv2 = { 1, 0 };
+	//std::array<float, 3> p3 = { min_vert, max_vert, 0 };  std::array<float, 2> uv3 = { 0, 1 };
+	//std::array<float, 3> p4 = { max_vert, max_vert, 0 };  std::array<float, 2> uv4 = { 1, 1 };
+	//std::array<float, 3> v1 = { p1[0], p1[1], p1[2] }; 
+	//std::array<float, 3> v2 = { p2[0], p2[1], p2[2] }; 
+	//std::array<float, 3> v3 = { p3[0], p3[1], p3[2] }; 
+	//std::array<float, 3> v4 = { p4[0], p4[1], p4[2] }; 
+	//vb.push_back(v1); uv.push_back(uv1);
+	//vb.push_back(v2); uv.push_back(uv2);
+	//vb.push_back(v3); uv.push_back(uv3);
+	//vb.push_back(v2); uv.push_back(uv2);
+	//vb.push_back(v4); uv.push_back(uv4);
+	//vb.push_back(v3); uv.push_back(uv3);
+	GLfloat g_vertex_buffer_data[] = {
+		min_vert,min_vert,min_vert, // triangle 1 : begin
+		min_vert,min_vert, max_vert,
+		min_vert, max_vert, max_vert, // triangle 1 : end
+
+		max_vert, max_vert,min_vert, // triangle 2 : begin
+		min_vert,min_vert,min_vert,
+		min_vert, max_vert,min_vert, // triangle 2 : end
+
+		max_vert,min_vert, max_vert,
+		min_vert,min_vert,min_vert,
+		max_vert,min_vert,min_vert,
+
+		max_vert, max_vert,min_vert,
+		max_vert,min_vert,min_vert,
+		min_vert,min_vert,min_vert,
+
+		min_vert,min_vert,min_vert,
+		min_vert, max_vert, max_vert,
+		min_vert, max_vert,min_vert,
+
+		max_vert,min_vert, max_vert,
+		min_vert,min_vert, max_vert,
+		min_vert,min_vert,min_vert,
+
+		min_vert, max_vert, max_vert,
+		min_vert,min_vert, max_vert,
+		max_vert,min_vert, max_vert,
+
+		max_vert, max_vert, max_vert,
+		max_vert,min_vert,min_vert,
+		max_vert, max_vert,min_vert,
+
+		max_vert,min_vert,min_vert,
+		max_vert, max_vert, max_vert,
+		max_vert,min_vert, max_vert,
+
+		max_vert, max_vert, max_vert,
+		max_vert, max_vert,min_vert,
+		min_vert, max_vert,min_vert,
+
+		max_vert, max_vert, max_vert,
+		min_vert, max_vert,min_vert,
+		min_vert, max_vert, max_vert,
+
+		max_vert, max_vert, max_vert,
+		min_vert, max_vert, max_vert,
+		max_vert,min_vert, max_vert
+	};
+	for(int i=0; i<36; i++)
+	{
+		std::array<float, 3> v = { g_vertex_buffer_data[i * 3 + 0],
+									g_vertex_buffer_data[i * 3 + 1],
+									g_vertex_buffer_data[i * 3 + 2], };
+		
+		std::array<float, 2> u = { float(i % 6) / 6.0, float(i % 6) / 6.0 };
+		vb.push_back(v);
+		uv.push_back(u);
+	}
 	myGeometry = make_shared<MyGeometry>(vb, uv);
 
 	glInitialized = true;

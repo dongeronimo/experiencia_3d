@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vtkCamera.h>
 #include <string>
 #include <spdlog.h>
 #include <ImageLoader.h>
@@ -27,6 +28,9 @@ int main(int argc, char** argv)
 	myActor = vtkSmartPointer<MyVolumeActor>::New();
 	myActor->SetImagem(imagem->GetImage());
 	renderWindow->GetRenderers()->GetFirstRenderer()->AddActor(myActor);
+	renderWindow->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->ParallelProjectionOn();
+	renderWindow->GetRenderers()->GetFirstRenderer()->ResetCamera();
+	renderWindow->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->Zoom(0.5);
 	renderWindow->GetInteractor()->Start();
 
 	return EXIT_SUCCESS;
@@ -60,7 +64,7 @@ vtkSmartPointer<vtkRenderWindow> CreateScreen()
 	vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
 	renderer->SetBackground(0.1, 0.2, 0.4);
 	vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
-	renderWindow->SetSize(200, 200);
+	renderWindow->SetSize(640, 480);
 	renderWindow->AddRenderer(renderer);
 	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 	renderWindowInteractor->SetRenderWindow(renderWindow);
