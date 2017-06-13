@@ -27,9 +27,11 @@ int main(int argc, char** argv)
 	vtkSmartPointer<vtkRenderWindow> renderWindow = CreateScreen();
 	myActor = vtkSmartPointer<MyVolumeActor>::New();
 	myActor->SetImagem(imagem->GetImage());
+	
 	renderWindow->GetRenderers()->GetFirstRenderer()->AddActor(myActor);
-	renderWindow->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->ParallelProjectionOn();
 	renderWindow->GetRenderers()->GetFirstRenderer()->ResetCamera();
+	renderWindow->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->ParallelProjectionOn();
+	renderWindow->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->SetParallelScale(2);
 	renderWindow->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->Zoom(0.5);
 	renderWindow->GetInteractor()->Start();
 
