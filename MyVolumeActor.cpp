@@ -1,5 +1,4 @@
 #include "MyVolumeActor.h"
-#include "geometryFactory.h"
 #include <iostream>
 #include <array>
 #include <vtkRenderer.h>
@@ -101,7 +100,6 @@ void MyVolumeActor::InitOpenGL()
 		std::array<float, 3> v = { g_vertex_buffer_data[i * 3 + 0],
 									g_vertex_buffer_data[i * 3 + 1],
 									g_vertex_buffer_data[i * 3 + 2], };
-		
 		std::array<float, 2> u = { (i % 6) / 6.0f , 0 };
 		vb.push_back(v);
 		uv.push_back(u);
